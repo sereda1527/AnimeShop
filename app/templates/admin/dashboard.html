@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Адмін-панель – AnimeShop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Адмін-панель</h2>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a href="{{ url_for('admin_products') }}" class="text-dark text-decoration-none">Додавання товарів</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('admin_products_list') }}" class="text-dark text-decoration-none">Управління товарами</a>
+        </li>
+
+        <li class="list-group-item">
+            <a href="{{ url_for('admin_orders') }}" class="text-dark text-decoration-none">Перегляд замовлень</a>
+        </li>
+        <li class="list-group-item">
+            <a href="{{ url_for('create_admin') }}" class="text-dark text-decoration-none">Створити адміністратора</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

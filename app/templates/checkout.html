@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block title %}Оформлення замовлення – AnimeShop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Оформлення замовлення</h2>
+
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+      {{ form.full_name.label(class="form-label") }}
+      {{ form.full_name(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.email.label(class="form-label") }}
+      {{ form.email(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.phone.label(class="form-label") }}
+      {{ form.phone(class="form-control") }}
+    </div>
+    <div class="mb-3">
+      {{ form.address.label(class="form-label") }}
+      {{ form.address(class="form-control", rows=2) }}
+    </div>
+    <div class="mb-3">
+      {{ form.delivery_method.label(class="form-label") }}
+      {{ form.delivery_method(class="form-select") }}
+    </div>
+    <div class="mb-3">
+      {{ form.comment.label(class="form-label") }}
+      {{ form.comment(class="form-control", rows=2) }}
+    </div>
+
+    <div class="text-end">
+      {{ form.submit(class="btn btn-pink btn-lg") }}
+    </div>
+  </form>
+
+  <h4 class="mt-5">Товари</h4>
+  {% for item in cart_items %}
+    <div class="border rounded p-2 mb-2 d-flex justify-content-between">
+      <span>{{ item.product.name }} × {{ item.quantity }}</span>
+      <span>{{ "%.2f"|format(item.quantity * item.product.price) }} грн</span>
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,219 @@
+@font-face {
+    font-family: "AnimeAce";
+    src: url("/static/fonts/Loopiejuice-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+    transition: background-image 1s ease-in-out;
+    font-family: "AnimeAce", sans-serif;
+    color: #0a0a0a;
+}
+
+/* Хедер і футер */
+header, footer {
+    background-color: #a5dcfc !important;
+    color: #000 !important;
+    margin-top: auto;
+}
+
+header .nav-link,
+footer p {
+    color: #000 !important;
+}
+
+.nav-link {
+    font-family: "AnimeAce", sans-serif;
+    font-size: 1.1rem;
+    margin-right: 10px;
+    transition: color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #e97e8b !important;
+    text-decoration: underline;
+}
+
+.navbar-brand {
+    font-family: "AnimeAce", sans-serif;
+    font-size: 1.5rem;
+    color: #000 !important;
+}
+
+.hero-title,
+.logo-text {
+    font-family: "AnimeAce", sans-serif;
+    font-size: 2.2rem;
+    letter-spacing: 0.15rem;
+    color: #000;
+}
+
+footer p {
+    font-family: "AnimeAce", sans-serif;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.sakura {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.sakura-header-left {
+    top: 0;
+    left: 0;
+    width: 120px;
+    z-index: 0;
+}
+
+.sakura-footer-right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 130px;
+    opacity: 0.8;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* КНОПКИ */
+.btn {
+    background-color: #ffa6a6;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: "AnimeAce", sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    transition: background-color 0.2s ease-in-out, color 0.2s;
+}
+
+.btn:hover,
+.btn:focus {
+    background-color: #ff7e7e;
+    color: #000;
+}
+
+.btn-outline-secondary {
+    background-color: #ffa6a6;
+    border: none;
+    color: #000;
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+    background-color: #ff7e7e;
+    color: #000;
+}
+
+/* ФОНИ */
+.bg-about {
+    background-image: url("/static/img/background4.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+.bg-payment {
+    background-image: url("/static/img/background5.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+/* ЗОБРАЖЕННЯ В ГАЛЕРЕЇ */
+.product-image-thumb {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    border: 2px solid transparent;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.product-image-thumb:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-color: #ffa6a6;
+}
+
+/* АДМІН НАВІГАЦІЯ */
+.list-group-item a {
+    transition: background-color 0.2s ease, color 0.2s ease;
+    display: block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.list-group-item a:hover {
+    background-color: #ffa6a6;
+    color: #000 !important;
+    text-decoration: none;
+}
+
+/* КАРТКИ ТОВАРУ */
+.border-pink {
+    border: 3px solid #ffa6a6;
+    border-radius: 10px;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-bottom: 0;
+}
+
+.product-card .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card img.card-img-top {
+    height: 200px;
+    object-fit: contain;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.product-actions {
+    margin-top: auto;
+}
+
+/* ТЕКСТИ В КАРТЦІ */
+.product-title {
+    font-family: "AnimeAce", sans-serif;
+    font-size: 1rem;
+    color: #333;
+    min-height: 2.6em;
+    line-height: 1.3em;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.favorite-btn svg {
+    transition: fill 0.2s ease-in-out, color 0.2s;
+}
+
+.favorite-btn svg.text-danger {
+    color: #ff5b5b !important;
+}
+
+.favorite-btn svg.text-secondary {
+    color: #bbb !important;
+}

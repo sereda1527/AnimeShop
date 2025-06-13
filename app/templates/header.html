@@ -1,0 +1,50 @@
+<header class="border-bottom shadow-sm position-relative">
+    <img src="{{ url_for('static', filename='img/sakura_branch1.png') }}"
+         alt="sakura" class="sakura sakura-header-left">
+
+    <div class="container d-flex justify-content-between align-items-center py-3">
+        <!-- Логотип -->
+        <a href="/" class="navbar-brand fw-bold"><h1>AnimeShop</h1></a>
+
+        <!-- Меню та авторизація справа -->
+        <div class="d-flex align-items-center justify-content-end flex-wrap">
+            <ul class="nav me-3">
+                <li class="nav-item"><a class="nav-link" href="/">Головна</a></li>
+                <li class="nav-item"><a class="nav-link" href="/catalog">Каталог</a></li>
+                <li class="nav-item"><a class="nav-link" href="/payment">Оплата і доставка</a></li>
+                <li class="nav-item"><a class="nav-link" href="/about">Про нас</a></li>
+                {% if session.user_id and session.user_role != 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">
+                            <img src="{{ url_for('static', filename='img/cart.svg') }}" alt="Кошик" width="20">
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if session.user_role == 'admin' %}
+            <li class="nav-item d-flex align-items-center">
+                <a class="nav-link text-danger d-flex align-items-center" href="/admin">
+                    <img src="{{ url_for('static', filename='img/settings.svg') }}" alt="Адмін" width="20" class="me-1 svg-black">
+                    Адмін-панель
+                </a>
+            </li>
+            {% endif %}
+
+            </ul>
+
+            <!-- Авторизація -->
+            <div class="d-flex align-items-center">
+                {% if session.user_id %}
+                    <a href="/profile" class="d-flex align-items-center text-decoration-none text-dark me-3">
+                        <img src="{{ url_for('static', filename='img/user.svg') }}" alt="Аккаунт" width="24" class="me-2">
+                        <span>{{ session.user_name }}</span>
+                    </a>
+                    <a href="/logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+                {% else %}
+                    <a href="/login" class="btn btn-outline-secondary btn-sm me-2">LogIn</a>
+                    <a href="/register" class="btn btn-outline-secondary btn-sm">SignIn</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>

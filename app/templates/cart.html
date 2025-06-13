@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+{% block title %}Кошик – AnimeShop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h2 class="mb-4">Ваш кошик</h2>
+
+  {% if items %}
+    {% for item in items %}
+    <div class="border rounded p-3 mb-3 d-flex align-items-center">
+      <img src="{{ url_for('static', filename=item.product.images[0].url) }}"
+           alt="{{ item.product.name }}"
+           class="me-3" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+
+      <div class="flex-grow-1">
+        <strong>{{ item.product.name }}</strong><br>
+        <small>Ціна: {{ "%.2f"|format(item.product.price) }} грн</small><br>
+        <form method="POST" action="{{ url_for('update_cart_quantity', product_id=item.product.id) }}"
+              class="d-inline-block mt-1">
+          <input type="number" name="quantity" value="{{ item.quantity }}" min="1"
+                 class="form-control d-inline-block" style="width: 80px;"
+                 onchange="this.form.submit()">
+        </form>
+        <div class="mt-2">Сума: <strong>{{ "%.2f"|format(item.quantity * item.product.price) }} грн</strong></div>
+      </div>
+
+      <form method="POST" action="{{ url_for('remove_from_cart', product_id=item.product.id) }}" class="ms-3">
+        <button type="submit" class="btn btn-sm btn-outline-danger">Видалити</button>
+      </form>
+    </div>
+    {% endfor %}
+
+    <div class="text-end mt-3">
+      <h4>Загальна сума: {{ "%.2f"|format(total) }} грн</h4>
+      <a href="{{ url_for('checkout') }}" class="btn btn-pink btn-lg mt-2">Оформити замовлення</a>
+    </div>
+  {% else %}
+    <p class="text-muted">Кошик порожній.</p>
+  {% endif %}
+
+  <h3 class="mt-5">Улюблене</h3>
+  {% if favorites %}
+    <div id="favCarousel" class="carousel slide mt-3" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for group in favorites|batch(3, fill_with=None) %}
+        <div class="carousel-item {% if loop.first %}active{% endif %}">
+          <div class="row justify-content-center text-center">
+            {% for fav in group %}
+              {% if fav %}
+              <div class="col-12 col-sm-4">
+                <div class="card h-100 border-0">
+                  {% if fav.product.images %}
+                    <img src="{{ url_for('static', filename=fav.product.images[0].url) }}"
+                         class="card-img-top mx-auto mt-2"
+                         style="width: 130px; height: 130px; object-fit: cover;">
+                  {% else %}
+                    <img src="{{ url_for('static', filename='img/placeholder.png') }}"
+                         class="card-img-top mx-auto mt-2"
+                         style="width: 130px; height: 130px; object-fit: cover;">
+                  {% endif %}
+                  <div class="card-body p-2">
+                    <p class="mb-1 small">{{ fav.product.name }}</p>
+                    <form method="POST" action="{{ url_for('add_to_cart', product_id=fav.product.id) }}">
+                      <button type="submit" class="btn btn-sm btn-outline-primary">До кошика</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#favCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#favCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  {% else %}
+    <p class="text-muted">Немає обраних товарів.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+{% block title %}AnimeShop – Головна{% endblock %}
+
+{% block content %}
+
+<div class="hero-section position-relative overflow-hidden">
+    <div class="container text-center py-5">
+        <h1 class="hero-title mb-4">Інтернет-магазин<br>аніме фігурок<br><span class="logo-text">"AnimeShop"</span></h1>
+        <a href="/catalog" class="btn btn-pink btn-lg px-5 py-3">Каталог</a>
+    </div>
+</div>
+
+<!-- Перемикач фону -->
+<div class="bg-switcher text-center mt-4">
+    <button onclick="prevBackground()" class="btn btn-outline-secondary btn-sm me-2">←</button>
+    <button onclick="nextBackground()" class="btn btn-outline-secondary btn-sm">→</button>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const images = [
+        "/static/img/background1.png",
+        "/static/img/background2.png",
+        "/static/img/background3.png"
+    ];
+    let current = 0;
+
+    function setBackground(index) {
+        document.body.style.backgroundImage = `url(${images[index]})`;
+    }
+
+    function nextBackground() {
+        current = (current + 1) % images.length;
+        setBackground(current);
+    }
+
+    function prevBackground() {
+        current = (current - 1 + images.length) % images.length;
+        setBackground(current);
+    }
+
+    // автоматична зміна кожні 7 секунд
+    setInterval(nextBackground, 7000);
+
+    // початковий фон
+    window.onload = () => {
+        setBackground(0);
+    };
+</script>
+{% endblock %}

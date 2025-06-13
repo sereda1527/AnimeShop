@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Замовлення – Admin{% endblock %}
+{% block content %}
+<div class="container py-4">
+  <h2>Усі замовлення</h2>
+  {% if orders %}
+    <div class="list-group mt-3">
+      {% for o in orders %}
+      <a href="{{ url_for('admin_order_view', order_id=o.id) }}" class="list-group-item list-group-item-action">
+        №{{ o.id }} – {{ o.full_name }} – {{ o.status }} – {{ o.created_at.strftime('%d.%m.%Y %H:%M') }}
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">Замовлень немає.</p>
+  {% endif %}
+</div>
+{% endblock %}

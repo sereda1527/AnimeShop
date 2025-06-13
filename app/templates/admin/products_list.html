@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}Список товарів – AnimeShop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4">Усі товари</h2>
+    <table class="table table-bordered table-hover bg-white shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Назва</th>
+                <th>Ціна</th>
+                <th>На складі</th>
+                <th>Категорія</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in products %}
+            <tr>
+                <td>{{ p.id }}</td>
+                <td>{{ p.name }}</td>
+                <td>{{ p.price }} грн</td>
+                <td>{{ p.stock }}</td>
+                <td>{{ p.category_id }}</td>  {# або категорію по словнику #}
+                <td>
+                    <a href="{{ url_for('admin_product_view', product_id=p.id) }}" class="btn btn-sm btn-outline-info">Переглянути</a>
+                    <a href="{{ url_for('admin_product_edit', product_id=p.id) }}" class="btn btn-sm btn-outline-secondary">Редагувати</a>
+                    <a href="{{ url_for('admin_product_delete', product_id=p.id) }}" class="btn btn-sm btn-outline-danger"
+                       onclick="return confirm('Видалити товар?')">Видалити</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

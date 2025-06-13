@@ -1,0 +1,159 @@
+{% extends "layout.html" %}
+{% block title %}{{ product.name }} – AnimeShop{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row">
+    <!-- Галерея -->
+    <div class="col-md-6">
+      <h2 class="mb-3">{{ product.name }}</h2>
+      {% if images %}
+        <a href="{{ url_for('static', filename=images[0].url) }}" data-fancybox="gallery">
+          <img src="{{ url_for('static', filename=images[0].url) }}" class="product-gallery-main mb-3">
+        </a>
+        <div class="row">
+          {% for img in images %}
+          <div class="col-3">
+            <a href="{{ url_for('static', filename=img.url) }}" data-fancybox="gallery">
+              <img src="{{ url_for('static', filename=img.url) }}" class="product-gallery-thumb">
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-muted">Зображення відсутні</p>
+      {% endif %}
+    </div>
+
+    <!-- Інформація -->
+    <div class="col-md-6">
+      <div class="mb-2"><strong>Ціна:</strong> {{ product.price }} грн</div>
+      <div class="mb-2"><strong>Наявність:</strong> {{ product.stock }} шт</div>
+      <div class="mb-2"><strong>Категорія:</strong> {{ product.category_id }}</div>
+      <div class="mb-2"><strong>Вага:</strong> {{ product.weight }} г</div>
+      <div class="mb-2"><strong>Розміри:</strong> {{ product.width }} × {{ product.height }} см</div>
+      <div class="mb-2"><strong>Серія:</strong> {{ product.series }}</div>
+      <div class="mb-2"><strong>Виробник:</strong> {{ product.manufacturer }}</div>
+      <div class="mb-3"><strong>Опис:</strong><br>{{ product.description }}</div>
+
+      <!-- Рейтинг -->
+      <div class="mb-3">
+        <strong>Рейтинг:</strong>
+        <span class="ms-2" style="font-size: 1.4rem; color: #ffc107;">
+          {% set full_stars = avg_rating|int %}
+          {% set half_star = 1 if avg_rating - full_stars >= 0.5 else 0 %}
+          {% set empty_stars = 5 - full_stars - half_star %}
+          {% for _ in range(full_stars) %}★{% endfor %}
+          {% if half_star %}☆{% endif %}
+          {% for _ in range(empty_stars) %}<span style="color: #ccc;">☆</span>{% endfor %}
+        </span>
+        <span class="ms-2 text-muted">{{ avg_rating }}/5</span>
+      </div>
+
+      <!-- Дії -->
+      <div class="d-flex gap-2 mb-3">
+        <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+          <button type="submit" class="btn btn-pink">До кошика</button>
+        </form>
+        <form method="POST" action="{{ url_for('add_to_favorites', product_id=product.id) }}">
+          <button type="submit" class="btn btn-outline-secondary">
+            <img src="{{ url_for('static', filename='img/favorite.svg') }}" width="20" alt="Улюблене">
+          </button>
+        </form>
+      </div>
+     <form method="POST" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+        <input type="hidden" name="redirect_to_cart" value="1">
+        <button type="submit" class="btn btn-pink btn-lg w-100">Придбати</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Відгуки -->
+  <div class="mt-5">
+    <h5>Відгуки</h5>
+
+    {% if session.user_id %}
+    <form method="POST" class="mb-4">
+      <div class="mb-2">
+        <label class="form-label d-block">Оцінка:</label>
+        <div class="rating-stars">
+          {% for i in range(5, 0, -1) %}
+          <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" required>
+          <label for="star{{ i }}">★</label>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="mb-2">
+        <textarea name="text" rows="3" class="form-control" placeholder="Залиште свій коментар..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-pink">Надіслати відгук</button>
+    </form>
+    {% else %}
+    <p class="text-muted">Щоб залишити відгук, будь ласка, <a href="{{ url_for('login') }}">увійдіть</a>.</p>
+    {% endif %}
+
+    {% for r in reviews %}
+    <div class="border rounded p-3 mb-3 bg-white shadow-sm">
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>{{ r.user.name if r.user else 'Користувач' }}</strong>
+        <small class="text-muted">{{ r.created_at.strftime('%d.%m.%Y %H:%M') }}</small>
+      </div>
+      <div class="text-warning">
+        {% for _ in range(r.rating) %}★{% endfor %}
+        {% for _ in range(5 - r.rating) %}<span style="color:#ccc;">☆</span>{% endfor %}
+      </div>
+      {% if r.text %}
+        <p class="mb-0">{{ r.text }}</p>
+      {% endif %}
+      {% if session.user_id == r.user_id %}
+        <form method="POST" action="{{ url_for('delete_review', review_id=r.id) }}" class="mt-2 text-end">
+          <button type="submit" class="btn btn-sm btn-outline-danger">Видалити</button>
+        </form>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.rating-stars {
+  direction: rtl;
+  display: inline-flex;
+}
+.rating-stars input[type="radio"] {
+  display: none;
+}
+.rating-stars label {
+  font-size: 1.6rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.rating-stars input[type="radio"]:checked ~ label,
+.rating-stars label:hover,
+.rating-stars label:hover ~ label {
+  color: #ffc107;
+}
+.product-gallery-main {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.product-gallery-thumb {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 0.3rem;
+  border: 1px solid #ddd;
+  transition: transform 0.2s;
+}
+.product-gallery-thumb:hover {
+  transform: scale(1.03);
+  border-color: #ffa6a6;
+}
+</style>
+{% endblock %}

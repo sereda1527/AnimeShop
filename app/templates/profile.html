@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}Профіль – AnimeShop{% endblock %}
+
+{% block content %}
+<div class="container py-5" style="max-width: 500px;">
+    <h2 class="mb-4 text-center">Профіль користувача</h2>
+    <p><strong>Ім’я:</strong> {{ session.user_name }}</p>
+    <hr>
+    <h4>Змінити пароль</h4>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="old_password" class="form-label">Поточний пароль</label>
+            <input type="password" class="form-control" name="old_password" id="old_password" required>
+        </div>
+        <div class="mb-3">
+            <label for="new_password" class="form-label">Новий пароль</label>
+            <input type="password" class="form-control" name="new_password" id="new_password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirm_password" class="form-label">Повторіть новий пароль</label>
+            <input type="password" class="form-control" name="confirm_password" id="confirm_password" required>
+        </div>
+        <button type="submit" class="btn btn-pink w-100">Змінити пароль</button>
+    </form>
+</div>
+{% endblock %}
